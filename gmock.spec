@@ -84,3 +84,29 @@ rm -rf %{buildroot}
 %{_libdir}/lib*.so
 %{_includedir}/gmock/*
 
+
+
+%changelog
+* Tue Nov 01 2011 Matthew Dawkins <mattydaw@mandriva.org> 1.6.0-1
++ Revision: 708440
+- imported package gmock
+
+
+* Sat Oct 29 2011 Matthew Dawkins <mdawkins@unity-linux.org> 1.6.0-1-unity2011
+- import for Unity
+- new version 1.6.0
+
+* Wed Jan 12 2011 Terje Rosten <terje.rosten@ntnu.no> - 1.5.0-1
+- 1.5.0
+- req gtest 1.5.0
+- fix description
+- fix group
+- fix files section
+- remove name macro
+- rpmlint error free
+- don't build with bundled gtest
+- make check works
+- add some buildreqs
+
+* Sun Oct 4 2009 Tejas Dinkar <tejas@gja.in> - 1.4.0-1
+- Initial gmock 1.4.0
