@@ -1,6 +1,6 @@
 %define	major	0
 %define libname	%mklibname	%{name} %{major}
-%define develname	%mklibname	%{name} -d
+%define devname	%mklibname	%{name} -d
 
 Summary:        Google C++ Mocking Framework
 Name:           gmock
@@ -8,12 +8,11 @@ Version:        1.6.0
 Release:        1
 License:        BSD
 Group:          System/Libraries
-URL:            http://code.google.com/p/googlemock/
+Url:            http://code.google.com/p/googlemock/
 Source0:        http://googlemock.googlecode.com/files/gmock-%{version}.zip
-Patch0:			gmock-1.6.0-enable-install.patch
+Patch0:		gmock-1.6.0-enable-install.patch
 BuildRequires:  gtest-devel >= 1.6.0
 BuildRequires:  python
-Requires:	%{libname} = %{version}-%{release}
 
 %description
 Inspired by jMock, EasyMock, and Hamcrest, and designed with C++'s
@@ -37,18 +36,18 @@ Group:      System/Libraries
 %description -n %{libname}
 Libraries for %{name}.
 
-%package -n %{develname}
+%package -n %{devname}
 Summary:        Development files for %{name}
 Group:          Development/C
 Requires:       %{libname} = %{version}-%{release}
 Provides:       %{name}-devel = %{version}-%{release}
 
-%description -n %{develname}
+%description -n %{devname}
 This package contains development files for %{name}.
 
 %prep
 %setup -q
-%patch0 -p1
+%apply_patches
 
 %build
 %configure2_5x \
@@ -59,9 +58,7 @@ This package contains development files for %{name}.
 %make LIBS='-lpthread -lgtest'
 
 %install
-rm -rf %{buildroot}
 %makeinstall_std
-find %{buildroot}%{_libdir} -name '*.la' -type f -delete -print
 
 # why repkg gtest
 rm -fr %{buildroot}%{_includedir}/gtest/
@@ -71,42 +68,11 @@ rm -fr %{buildroot}%{_datadir}/aclocal
 %check
 %make check
 
-%clean
-rm -rf %{buildroot}
-
 %files -n %{libname}
-%defattr(-,root,root,-)
-%{_libdir}/lib*.so.%{major}*
+%{_libdir}/libgmock.so.%{major}*
 
-%files -n %{develname}
-%defattr(-,root,root,-)
+%files -n %{devname}
 %doc CHANGES CONTRIBUTORS COPYING README
 %{_libdir}/lib*.so
 %{_includedir}/gmock/*
 
-
-
-%changelog
-* Tue Nov 01 2011 Matthew Dawkins <mattydaw@mandriva.org> 1.6.0-1
-+ Revision: 708440
-- imported package gmock
-
-
-* Sat Oct 29 2011 Matthew Dawkins <mdawkins@unity-linux.org> 1.6.0-1-unity2011
-- import for Unity
-- new version 1.6.0
-
-* Wed Jan 12 2011 Terje Rosten <terje.rosten@ntnu.no> - 1.5.0-1
-- 1.5.0
-- req gtest 1.5.0
-- fix description
-- fix group
-- fix files section
-- remove name macro
-- rpmlint error free
-- don't build with bundled gtest
-- make check works
-- add some buildreqs
-
-* Sun Oct 4 2009 Tejas Dinkar <tejas@gja.in> - 1.4.0-1
-- Initial gmock 1.4.0
