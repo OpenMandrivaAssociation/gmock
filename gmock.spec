@@ -1,18 +1,19 @@
 %define	major	0
-%define libname	%mklibname	%{name} %{major}
-%define devname	%mklibname	%{name} -d
+%define libname	%mklibname %{name} %{major}
+%define libmain	%mklibname %{name}_main %{major}
+%define devname	%mklibname %{name} -d
 
-Summary:        Google C++ Mocking Framework
-Name:           gmock
-Version:        1.6.0
-Release:        1
-License:        BSD
-Group:          System/Libraries
-Url:            http://code.google.com/p/googlemock/
-Source0:        http://googlemock.googlecode.com/files/gmock-%{version}.zip
+Summary:	Google C++ Mocking Framework
+Name:		gmock
+Version:	1.6.0
+Release:	2
+License:	BSD
+Group:		System/Libraries
+Url:		http://code.google.com/p/googlemock/
+Source0:	http://googlemock.googlecode.com/files/gmock-%{version}.zip
 Patch0:		gmock-1.6.0-enable-install.patch
-BuildRequires:  gtest-devel >= 1.6.0
-BuildRequires:  python
+BuildRequires:	gtest-devel >= 1.6.0
+BuildRequires:	python
 
 %description
 Inspired by jMock, EasyMock, and Hamcrest, and designed with C++'s
@@ -30,17 +31,26 @@ Google Mock:
    Symbian.
 
 %package -n %{libname}
-Summary:    Libraries for the %{name} package
-Group:      System/Libraries
+Summary:	Libraries for the %{name} package
+Group:		System/Libraries
 
 %description -n %{libname}
-Libraries for %{name}.
+Library for %{name}.
+
+%package -n %{libmain}
+Summary:	Libraries for the %{name} package
+Group:		System/Libraries
+Conflicts:	%{_lib}gmock0 < 1.6.0-2
+
+%description -n %{libmain}
+Library for %{name}.
 
 %package -n %{devname}
-Summary:        Development files for %{name}
-Group:          Development/C
-Requires:       %{libname} = %{version}-%{release}
-Provides:       %{name}-devel = %{version}-%{release}
+Summary:	Development files for %{name}
+Group:		Development/C
+Requires:	%{libname} = %{version}-%{release}
+Requires:	%{libmain} = %{version}-%{release}
+Provides:	%{name}-devel = %{version}-%{release}
 
 %description -n %{devname}
 This package contains development files for %{name}.
@@ -70,6 +80,9 @@ rm -fr %{buildroot}%{_datadir}/aclocal
 
 %files -n %{libname}
 %{_libdir}/libgmock.so.%{major}*
+
+%files -n %{libmain}
+%{_libdir}/libgmock_main.so.%{major}*
 
 %files -n %{devname}
 %doc CHANGES CONTRIBUTORS COPYING README
