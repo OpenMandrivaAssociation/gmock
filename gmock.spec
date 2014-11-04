@@ -5,8 +5,8 @@
 
 Summary:	Google C++ Mocking Framework
 Name:		gmock
-Version:	1.6.0
-Release:	8
+Version:	1.7.0
+Release:	1
 License:	BSD
 Group:		System/Libraries
 Url:		http://code.google.com/p/googlemock/
@@ -58,10 +58,10 @@ This package contains development files for %{name}.
 %prep
 %setup -q
 %apply_patches
+find . -name "*.py" -exec sed -i 's|/usr/bin/env python|%__python2|' {} \;
 
 %build
-%configure2_5x \
-	--disable-static \
+%configure \
 	--with-gtest \
 	--enable-external-gtest
 
@@ -85,7 +85,7 @@ rm -fr %{buildroot}%{_datadir}/aclocal
 %{_libdir}/libgmock_main.so.%{major}*
 
 %files -n %{devname}
-%doc CHANGES CONTRIBUTORS COPYING README
+%doc CHANGES CONTRIBUTORS README
 %{_libdir}/lib*.so
 %{_includedir}/gmock/*
 
