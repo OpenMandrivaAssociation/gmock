@@ -6,7 +6,7 @@
 Summary:	Google C++ Mocking Framework
 Name:		gmock
 Version:	1.7.0
-Release:	1
+Release:	2
 License:	BSD
 Group:		System/Libraries
 Url:		http://code.google.com/p/googlemock/
