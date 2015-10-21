@@ -2,6 +2,7 @@
 %define libname	%mklibname %{name} %{major}
 %define libmain	%mklibname %{name}_main %{major}
 %define devname	%mklibname %{name} -d
+%define _disable_rebuild_configure 1
 
 Summary:	Google C++ Mocking Framework
 Name:		gmock
