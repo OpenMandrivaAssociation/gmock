@@ -7,7 +7,7 @@
 Summary:	Google C++ Mocking Framework
 Name:		gmock
 Version:	1.7.0
-Release:	4
+Release:	5
 License:	BSD
 Group:		System/Libraries
 Url:		http://code.google.com/p/googlemock/
@@ -56,6 +56,14 @@ Provides:	%{name}-devel = %{version}-%{release}
 %description -n %{devname}
 This package contains development files for %{name}.
 
+%package source
+Summary:	Source files for %{name}
+Group:		Development/C
+Suggests:	%{devname} = %{version}-%{release}
+
+%description source
+Source files for %{name}
+
 %prep
 %setup -q
 %apply_patches
@@ -76,6 +84,12 @@ rm -fr %{buildroot}%{_includedir}/gtest/
 rm -fr %{buildroot}%{_libdir}/libgtest*
 rm -fr %{buildroot}%{_datadir}/aclocal
 
+# A number of applications want to use stuff directly from the gmock source tree
+mkdir %{buildroot}%{_prefix}/src
+cd %{buildroot}%{_prefix}/src
+unzip %{SOURCE0}
+mv %{name}-%{version} %{name}
+
 %check
 %make check
 
@@ -90,3 +104,5 @@ rm -fr %{buildroot}%{_datadir}/aclocal
 %{_libdir}/lib*.so
 %{_includedir}/gmock/*
 
+%files source
+%{_prefix}/src/%{name}
